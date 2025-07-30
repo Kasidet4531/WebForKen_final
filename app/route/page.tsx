@@ -21,6 +21,7 @@ import {
   Wifi,
   WifiOff,
   Expand,
+  Square,
 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
@@ -31,6 +32,7 @@ const stepIcons = {
   "u-turn": RotateCcw,
   pick: Package,
   drop: PackageOpen,
+  stop: Square,
 }
 
 const stepLabels = {
@@ -40,6 +42,7 @@ const stepLabels = {
   "u-turn": "U-Turn",
   pick: "Pick Up",
   drop: "Drop Off",
+  stop: "Stop",
   start: "Start",
   reset: "reset",
 }
@@ -51,6 +54,7 @@ const stepLetters = {
   "u-turn": "U",
   pick: "P",
   drop: "D",
+  stop: "S",
 }
 
 export default function RoutePage() {
@@ -224,7 +228,12 @@ export default function RoutePage() {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-3 gap-4">
-                  {Object.entries(stepIcons).map(([type, Icon], index) => (
+                  {/* Row 1: Left, Straight, Right */}
+                  {([
+                    ['left', ArrowLeft],
+                    ['straight', ArrowUp],
+                    ['right', ArrowRight]
+                  ] as const).map(([type, Icon], index) => (
                     <motion.div
                       key={type}
                       initial={{ opacity: 0, scale: 0.8 }}
@@ -241,6 +250,47 @@ export default function RoutePage() {
                       </Button>
                     </motion.div>
                   ))}
+                  
+                  {/* Row 2: Pick, Stop, Drop */}
+                  {([
+                    ['pick', Package],
+                    ['stop', Square],
+                    ['drop', PackageOpen]
+                  ] as const).map(([type, Icon], index) => (
+                    <motion.div
+                      key={type}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.6 + index * 0.1 }}
+                    >
+                      <Button
+                        onClick={() => handleAddStep(type as keyof typeof stepIcons)}
+                        variant="outline"
+                        className="touch-button w-full flex flex-col items-center gap-3 h-20 glass border-orange-500/30 hover:bg-orange-500/10 hover:border-orange-500 ripple"
+                      >
+                        <Icon className="h-6 w-6 text-orange-500" />
+                        <span className="text-xs font-bold">{stepLabels[type as keyof typeof stepLabels]}</span>
+                      </Button>
+                    </motion.div>
+                  ))}
+                  
+                  {/* Row 3: Empty, U-Turn, Empty */}
+                  <div></div>
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.9 }}
+                  >
+                    <Button
+                      onClick={() => handleAddStep('u-turn')}
+                      variant="outline"
+                      className="touch-button w-full flex flex-col items-center gap-3 h-20 glass border-orange-500/30 hover:bg-orange-500/10 hover:border-orange-500 ripple"
+                    >
+                      <RotateCcw className="h-6 w-6 text-orange-500" />
+                      <span className="text-xs font-bold">{stepLabels['u-turn']}</span>
+                    </Button>
+                  </motion.div>
+                  <div></div>
                 </div>
 
                 <div className="flex gap-4">

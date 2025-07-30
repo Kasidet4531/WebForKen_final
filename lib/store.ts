@@ -2,7 +2,7 @@ import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
 export interface RouteStep {
-  type: "left" | "right" | "straight" | "u-turn" | "pick" | "drop"
+  type: "left" | "right" | "straight" | "u-turn" | "pick" | "drop" | "stop"
   id: string
 }
 
