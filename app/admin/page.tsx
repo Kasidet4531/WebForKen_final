@@ -1,15 +1,17 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { useAppStore } from "@/lib/store"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Trash2, Shield, Users, Activity } from "lucide-react"
+import { Trash2, Shield, Users, Activity, LogOut } from "lucide-react"
 import { toast } from "sonner"
 
 export default function AdminPage() {
+  const router = useRouter()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -20,6 +22,7 @@ export default function AdminPage() {
     connectedUsers,
     removeConnectedUser,
   } = useAppStore()
+
 
   const handleLogin = async () => {
     setIsLoading(true)
@@ -43,10 +46,20 @@ export default function AdminPage() {
   }
 
   const handleLogout = () => {
+    // Clear admin state
     setIsAdminLoggedIn(false)
+    
+    // Clear form fields
     setUsername("")
     setPassword("")
-    toast.success("Logged out successfully")
+    
+    // Clear any loading state
+    setIsLoading(false)
+    
+    toast.success("Admin logged out successfully")
+    
+    // Redirect to main page after logout
+    router.push("/")
   }
 
   const handleForceLogout = (ip: string) => {
@@ -112,9 +125,15 @@ export default function AdminPage() {
           <Shield className="h-8 w-8" />
           Admin Dashboard
         </h1>
-        <Button onClick={handleLogout} variant="outline">
-          Logout
-        </Button>
+        <div className="flex items-center gap-4">
+          <Badge variant="secondary" className="px-3 py-1">
+            Admin Mode Active
+          </Badge>
+          <Button onClick={handleLogout} variant="destructive" size="lg">
+            <LogOut className="h-4 w-4 mr-2" />
+            Logout Admin
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

@@ -158,7 +158,7 @@ export default function RoutePage() {
 
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="font-bold text-lg">Current Route</h3>
+            <h3 className="font-bold text-lg">Current Auto Route</h3>
             <div className="flex items-center gap-2">
               <span className="text-sm text-gray-500 dark:text-gray-400">{routeSteps.length} steps</span>
               <Button
@@ -223,7 +223,7 @@ export default function RoutePage() {
             <Card className="glass-card rounded-3xl border-0 shadow-2xl">
               <CardHeader>
                 <CardTitle className="text-xl font-bold bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent">
-                  Movement Steps
+                  Auto Movement Steps
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -330,7 +330,7 @@ export default function RoutePage() {
             <Card className="glass-card rounded-3xl border-0 shadow-2xl">
               <CardHeader>
                 <CardTitle className="text-xl font-bold bg-gradient-to-r from-green-600 to-red-600 bg-clip-text text-transparent">
-                  Robot Controls
+                  Auto Robot Controls
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">

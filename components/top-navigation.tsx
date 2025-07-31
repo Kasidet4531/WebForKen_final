@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion"
 
 const pageNames = {
   "/": "Connect",
-  "/route": "Route Planner",
+  "/route": "Auto Mode",
   "/config": "Configuration",
   "/manual": "Manual Control",
 }
@@ -16,7 +16,7 @@ const pageNames = {
 export function TopNavigation() {
   const pathname = usePathname()
   const router = useRouter()
-  const { isUIHidden, websocket, setWebsocket, setIsConnected, setWsIp } = useAppStore()
+  const { isUIHidden, websocket, setWebsocket, setIsConnected, setWsIp, isAdminLoggedIn } = useAppStore()
   const currentPageName = pageNames[pathname as keyof typeof pageNames] || "WebSocket Controller"
 
   const handleLogout = () => {
@@ -61,14 +61,25 @@ export function TopNavigation() {
             </span> */}
           </motion.button>
 
-          <motion.h1
-            key={currentPageName}
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-lg font-bold text-center justify-self-center bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent"
-          >
-            {currentPageName}
-          </motion.h1>
+          <div className="flex flex-col items-center justify-self-center">
+            <motion.h1
+              key={currentPageName}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-lg font-bold text-center bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent"
+            >
+              {currentPageName}
+            </motion.h1>
+            {isAdminLoggedIn && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-xs bg-red-500 text-white px-2 py-0.5 rounded-full mt-1"
+              >
+                Admin Mode
+              </motion.div>
+            )}
+          </div>
 
           <div className="justify-self-end">
             <ThemeToggle />

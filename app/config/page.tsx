@@ -1,20 +1,24 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { useAppStore, ConfigData } from "@/lib/store"
 import { toast } from "sonner"
-import { Settings, Send } from "lucide-react"
+import { Settings, Send, Lock } from "lucide-react"
 import { motion } from "framer-motion"
+import { AdminRouteGuard } from "@/components/admin-route-guard"
 
 export default function ConfigPage() {
-  const { config, websocket, isConnected, currentConfig, setCurrentConfig } = useAppStore()
+  const router = useRouter()
+  const { config, websocket, isConnected, currentConfig, setCurrentConfig, isAdminLoggedIn } = useAppStore()
   const [localConfig, setLocalConfig] = useState(config)
   
   console.log('ConfigPage render - currentConfig:', currentConfig)
+
 
   useEffect(() => {
     setLocalConfig(config)
@@ -107,9 +111,9 @@ export default function ConfigPage() {
     }))
   }
 
-
   return (
-    <div className="min-h-screen p-4">
+    <AdminRouteGuard requireAdmin={true}>
+      <div className="min-h-screen p-4">
       <div className="max-w-md mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 50, scale: 0.9 }}
@@ -203,5 +207,6 @@ export default function ConfigPage() {
         </motion.div>
       </div>
     </div>
+    </AdminRouteGuard>
   )
 }

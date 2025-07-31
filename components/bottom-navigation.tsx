@@ -1,26 +1,29 @@
 "use client"
 
 import { usePathname, useRouter } from "next/navigation"
-import { Route, Settings, Gamepad2, Shield } from "lucide-react"
+import { Route, Settings, Gamepad2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useAppStore } from "@/lib/store"
 import { motion, AnimatePresence } from "framer-motion"
 import { useEffect } from "react" 
 
 const baseNavItems = [
-  { href: "/route", label: "Route", icon: Route },
-  { href: "/config", label: "Config", icon: Settings },
+  { href: "/route", label: "Auto", icon: Route },
   { href: "/manual", label: "Manual", icon: Gamepad2 },
 ]
-
-const adminNavItem = { href: "/admin", label: "Admin", icon: Shield }
 
 export function BottomNavigation() {
   const pathname = usePathname()
   const router = useRouter()
   const { isUIHidden, isAdminLoggedIn } = useAppStore()
 
-  const navItems = [...baseNavItems, ...(isAdminLoggedIn ? [adminNavItem] : [])]
+  // Always show base nav items
+  // Only show Config when admin is logged in (no admin login button in nav)
+  const navItems = [
+    ...baseNavItems,
+    // Show Config only when admin is logged in
+    ...(isAdminLoggedIn ? [{ href: "/config", label: "Config", icon: Settings }] : [])
+  ]
   // useEffect(() => {
   //   const ws = useAppStore.getState().websocket
   //   if (ws && ws.readyState === WebSocket.OPEN) {

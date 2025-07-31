@@ -130,6 +130,7 @@ export const useAppStore = create<AppState>()(
         wsIp: state.wsIp,
         config: state.config,
         stickGap: state.stickGap,
+        isAdminLoggedIn: state.isAdminLoggedIn,
       }),
     },
   ),
